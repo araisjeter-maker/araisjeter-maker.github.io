@@ -52,7 +52,8 @@ CANDIDATES={
  ],
  "d2":[
   "https://www.pexels.com/video/close-up-view-of-a-person-typing-7660185/",
-  "https://www.pexels.com/video/close-up-shot-of-humans-hands-9465404/"
+  "https://www.pexels.com/video/close-up-view-of-a-man-looking-worried-7534959/",
+  "https://www.pexels.com/video/a-person-reading-a-book-4769627/"
  ],
  "d3":[
   "https://www.pexels.com/video/a-person-reading-a-book-4769627/",
@@ -306,10 +307,10 @@ TOURETTE=[
 
 TDL=[
  {"src":"d1","text":"Eu sabia a resposta.","dur":2.6,"start":0,"size":66},
- {"src":"d2","text":"Ela estava inteira na minha cabeça.","dur":2.9,"start":1},
+ {"src":"d5","text":"Ela estava inteira na minha cabeça.","dur":2.9,"start":1},
  {"src":"d3","text":"Então veio a pergunta:","dur":2.4,"start":2},
  {"src":"d1","text":"“Por que isso aconteceu?”","dur":3.0,"start":4,"size":52},
- {"src":"d2","text":"Eu procurei a primeira palavra.","dur":3.0,"start":5},
+ {"src":"d6","text":"Eu procurei a primeira palavra.","dur":3.0,"start":5},
  {"src":"d3","text":"A resposta estava pronta.","mode":"blank","dur":3.5,"start":6},
  {"src":"d4","text":"Ninguém disse nada.","mode":"clock","clock":"05","dur":2.7,"start":0},
  {"src":"d4","text":"A espera virou cobrança.","mode":"clock","clock":"10","dur":2.8,"start":4},

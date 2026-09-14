@@ -31,9 +31,41 @@ SOURCES={
  "d7":"https://www.pexels.com/video/a-woman-talking-to-someone-10373944/",
  "d8":"https://www.pexels.com/video/close-up-shot-of-humans-hands-9465404/"
 }
-GROUPS={
- "t":["t1","t2","t3","t4","t5","t6","t7","t8","t9","t10"],
- "d":["d1","d2","d3","d4","d5","d6","d7","d8"]
+CANDIDATES={
+ "t5":[
+  "https://www.pexels.com/video/a-couple-holding-hands-8921925/",
+  "https://www.pexels.com/video/woman-comforting-sad-twin-sister-6764083/",
+  "https://www.pexels.com/video/same-sex-couple-lying-on-the-floor-holding-hands-6973129/"
+ ],
+ "t6":[
+  "https://www.pexels.com/video/a-woman-nodding-while-talking-9034495/",
+  "https://www.pexels.com/video/a-woman-touching-a-man-s-face-8088655/",
+  "https://www.pexels.com/video/woman-comforting-sad-twin-sister-6764083/"
+ ],
+ "t7":[
+  "https://www.pexels.com/video/woman-shopping-in-grocery-aisle-29846459/",
+  "https://www.pexels.com/video/a-man-walking-in-a-supermarket-aisle-with-shopping-carts-16666918/",
+  "https://www.pexels.com/video/shopping-aisle-perspective-on-supermarket-essentials-29376327/",
+  "https://www.pexels.com/video/time-lapse-video-of-a-person-in-the-grocery-9010436/",
+  "https://www.pexels.com/video/busy-supermarket-aisle-with-shoppers-35189918/",
+  "https://www.pexels.com/video/a-man-walking-inside-the-supermarket-4081583/"
+ ],
+ "t8":[
+  "https://www.pexels.com/video/close-up-shot-of-humans-hands-9465404/",
+  "https://www.pexels.com/video/close-up-of-hands-touching-in-nature-30428226/",
+  "https://www.pexels.com/video/a-close-up-of-a-person-s-hand-10210122/"
+ ],
+ "t9":[
+  "https://www.pexels.com/video/a-stressed-man-holding-his-head-7918583/",
+  "https://www.pexels.com/video/a-stressed-man-holding-his-head-7918580/",
+  "https://www.pexels.com/video/a-man-hitting-the-wall-using-his-hand-8134591/",
+  "https://www.pexels.com/video/woman-resting-her-head-on-her-hand-6382082/"
+ ],
+ "t10":[
+  "https://www.pexels.com/video/close-up-of-hands-touching-in-nature-30428226/",
+  "https://www.pexels.com/video/close-up-video-of-hands-moving-9465403/",
+  "https://www.pexels.com/video/close-up-shot-of-humans-hands-9465404/"
+ ]
 }
 
 def run(cmd):
@@ -42,10 +74,8 @@ def run(cmd):
 def download(key):
  out=A/f"{key}.mp4"
  if out.exists() and out.stat().st_size>100000:return out
- group=GROUPS[key[0]]
- order=[key]+[x for x in group if x!=key]
- for k in order:
-  page=SOURCES[k]
+ pages=CANDIDATES.get(key,[SOURCES[key]])
+ for page in pages:
   try:
    if out.exists():out.unlink()
    run(["yt-dlp","--no-playlist","--impersonate","chrome","--extractor-args","generic:impersonate",

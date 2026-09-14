@@ -1,4 +1,4 @@
-import argparse, subprocess, time
+import argparse, subprocess, time, re
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
@@ -118,15 +118,31 @@ def download(key):
  if out.exists() and out.stat().st_size>100000:return out
  pages=CANDIDATES.get(key,[SOURCES[key]])
  for page in pages:
+  video_id=re.search(r"(\\d+)/?$",page).group(1)
+  direct=[
+   f"https://videos.pexels.com/video-files/{video_id}/{video_id}-hd_1920_1080_25fps.mp4",
+   f"https://videos.pexels.com/video-files/{video_id}/{video_id}-hd_1080_1920_25fps.mp4",
+   f"https://videos.pexels.com/video-files/{video_id}/{video_id}-hd_1920_1080_30fps.mp4",
+   f"https://videos.pexels.com/video-files/{video_id}/{video_id}-hd_1080_1920_30fps.mp4",
+   f"https://videos.pexels.com/video-files/{video_id}/{video_id}-hd_1280_720_25fps.mp4",
+   f"https://videos.pexels.com/video-files/{video_id}/{video_id}-hd_720_1280_25fps.mp4"
+  ]
+  for url in direct:
+   try:
+    if out.exists():out.unlink()
+    run(["curl","-L","--fail","--silent","--show-error","--connect-timeout","5","--max-time","120","-o",str(out),url])
+    if out.exists() and out.stat().st_size>100000:return out
+   except subprocess.CalledProcessError:
+    pass
   try:
    if out.exists():out.unlink()
    run(["yt-dlp","--no-playlist","--impersonate","chrome","--extractor-args","generic:impersonate",
         "--referer",page,"--retries","3","-f","bestvideo[height<=1920][ext=mp4]/best[height<=1920]/best",
         "--merge-output-format","mp4","-o",str(out),page])
    if out.exists() and out.stat().st_size>100000:
-    time.sleep(2);return out
+    time.sleep(1);return out
   except subprocess.CalledProcessError:
-   time.sleep(3)
+   time.sleep(1)
  raise RuntimeError("Fontes gratuitas indisponíveis: "+key)
 
 def ft(n,b=True):return ImageFont.truetype(BOLD if b else REG,n)

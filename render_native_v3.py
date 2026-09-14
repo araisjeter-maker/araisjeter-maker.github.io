@@ -1,4 +1,5 @@
 import subprocess
+import time
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
@@ -45,17 +46,50 @@ def run(cmd):
     subprocess.run(cmd, check=True)
 
 ALTERNATES = {
+    # Cada grupo permanece exclusivo do próprio vídeo; nenhuma cena antiga é usada.
+    "t_hands": [
+        "https://www.pexels.com/video/a-person-comforting-someone-while-touching-back-8555708/",
+        "https://www.pexels.com/video/a-woman-having-a-body-massage-5894177/"
+    ],
+    "t_sofa": [
+        "https://www.pexels.com/video/a-distressed-woman-screaming-4587899/",
+        "https://www.pexels.com/video/a-woman-having-a-body-massage-5894177/",
+        "https://www.pexels.com/video/a-person-comforting-someone-while-touching-back-8555708/"
+    ],
+    "t_pressure": [
+        "https://www.pexels.com/video/an-anxious-patient-rubbing-her-hands-6010758/",
+        "https://www.pexels.com/video/a-stressed-man-sitting-on-a-sofa-11945234/"
+    ],
+    "t_support": [
+        "https://www.pexels.com/video/a-woman-having-a-body-massage-5894177/",
+        "https://www.pexels.com/video/an-anxious-patient-rubbing-her-hands-6010758/"
+    ],
+    "t_release": [
+        "https://www.pexels.com/video/a-person-comforting-someone-while-touching-back-8555708/",
+        "https://www.pexels.com/video/an-anxious-patient-rubbing-her-hands-6010758/"
+    ],
+    "d_phone": [
+        "https://www.pexels.com/video/person-texting-a-message-7362704/",
+        "https://www.pexels.com/video/person-typing-on-a-phone-7560581/"
+    ],
+    "d_message": [
+        "https://www.pexels.com/video/woman-texting-on-her-phone-8142388/",
+        "https://www.pexels.com/video/person-typing-on-a-phone-7560581/"
+    ],
     "d_wait": [
         "https://www.pexels.com/video/woman-texting-on-a-phone-in-front-of-a-laptop-by-the-window-10375420/",
-        "https://www.pexels.com/video/clock-face-model-sitting-8322048/"
+        "https://www.pexels.com/video/clock-face-model-sitting-8322048/",
+        "https://www.pexels.com/video/person-typing-on-a-phone-7560581/"
     ],
     "d_clock": [
         "https://www.pexels.com/video/clock-face-model-sitting-8322048/",
-        "https://www.pexels.com/video/a-woman-dancing-with-a-wall-clock-covering-her-face-8322013/"
+        "https://www.pexels.com/video/a-woman-dancing-with-a-wall-clock-covering-her-face-8322013/",
+        "https://www.pexels.com/video/person-texting-a-message-7362704/"
     ],
     "d_write": [
         "https://www.pexels.com/video/close-up-of-person-writing-on-paper-7535005/",
-        "https://www.pexels.com/video/close-up-on-writing-with-ink-pen-11137423/"
+        "https://www.pexels.com/video/close-up-on-writing-with-ink-pen-11137423/",
+        "https://www.pexels.com/video/person-typing-on-a-phone-7560581/"
     ]
 }
 
@@ -78,9 +112,11 @@ def download(key):
             run(cmd)
             if target.exists() and target.stat().st_size > 100000:
                 print(f"Fonte gratuita validada: {key} tentativa {attempt}", flush=True)
+                time.sleep(2)
                 return target
         except subprocess.CalledProcessError:
             print(f"Fonte {attempt} indisponível para {key}; tentando outra gratuita.", flush=True)
+            time.sleep(3)
     raise RuntimeError(f"Todas as fontes gratuitas falharam: {key}")
 
 def font(size, bold=True):

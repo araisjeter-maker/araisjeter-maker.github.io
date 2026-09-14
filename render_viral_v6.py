@@ -32,22 +32,24 @@ def run(c):
 def download(k):
  out=A/f"{k}.mp4"
  if out.exists() and out.stat().st_size>100000:return out
- page=SRC[k]; vid=re.search(r"(\d+)/?$",page).group(1)
+ page=SRC[k]; vid=re.search(r"(\\d+)/?$",page).group(1)
+ try:
+  run(["yt-dlp","--no-playlist","--impersonate","chrome","--referer",page,"--recode-video","mp4","-o",str(out),page])
+  if out.exists() and out.stat().st_size>100000:return out
+ except Exception:
+  if out.exists():out.unlink()
  urls=[
+  f"https://videos.pexels.com/video-files/{vid}/{vid}-sd_960_540_25fps.mp4",
+  f"https://videos.pexels.com/video-files/{vid}/{vid}-sd_540_960_25fps.mp4",
   f"https://videos.pexels.com/video-files/{vid}/{vid}-hd_1080_1920_25fps.mp4",
-  f"https://videos.pexels.com/video-files/{vid}/{vid}-hd_1920_1080_25fps.mp4",
-  f"https://videos.pexels.com/video-files/{vid}/{vid}-hd_1080_1920_30fps.mp4",
-  f"https://videos.pexels.com/video-files/{vid}/{vid}-hd_1920_1080_30fps.mp4",
-  f"https://videos.pexels.com/video-files/{vid}/{vid}-hd_720_1280_25fps.mp4",
-  f"https://videos.pexels.com/video-files/{vid}/{vid}-hd_1280_720_25fps.mp4"]
+  f"https://videos.pexels.com/video-files/{vid}/{vid}-hd_1920_1080_25fps.mp4"]
  for url in urls:
   try:
    run(["curl","-L","--fail","--silent","--show-error","--connect-timeout","6","--max-time","150","-o",str(out),url])
-   if out.stat().st_size>100000:return out
+   if out.exists() and out.stat().st_size>100000:return out
   except Exception:
    if out.exists():out.unlink()
- run(["yt-dlp","--no-playlist","--impersonate","chrome","--referer",page,"-f","best","--recode-video","mp4","-o",str(out),page])
- return out
+ raise RuntimeError("Fonte gratuita temporariamente indisponível: "+k)
 
 def font(n,b=True,serif=False): return ImageFont.truetype(S if serif else (B if b else R),n)
 def width(d,t,f): return d.textbbox((0,0),t,font=f)[2]

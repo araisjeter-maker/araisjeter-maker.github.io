@@ -32,7 +32,7 @@ def run(c):
 def download(k):
  out=A/f"{k}.mp4"
  if out.exists() and out.stat().st_size>100000:return out
- page=SRC[k]; vid=re.search(r"(\\d+)/?$",page).group(1)
+ page=SRC[k]; vid=re.search(r"(\d+)/?$",page).group(1)
  try:
   run(["yt-dlp","--no-playlist","--impersonate","chrome","--referer",page,"--recode-video","mp4","-o",str(out),page])
   if out.exists() and out.stat().st_size>100000:return out

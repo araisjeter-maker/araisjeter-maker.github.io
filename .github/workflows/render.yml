@@ -1,0 +1,55 @@
+name: Renderizar vídeos profissionais
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "render_videos.py"
+      - ".github/workflows/render.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Baixar projeto
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar ferramentas gratuitas
+        run: |
+          python -m pip install --upgrade pip
+          pip install Pillow
+          ffmpeg -version
+
+      - name: Renderizar MP4 silenciosos
+        run: python render_videos.py
+
+      - name: Validar arquivos
+        run: |
+          test -s videos/Video_1_Tourette_profissional.mp4
+          test -s videos/Video_2_TDL_profissional.mp4
+          ffprobe -v error -select_streams a -show_entries stream=codec_type -of csv=p=0 videos/Video_1_Tourette_profissional.mp4 | test ! -s /dev/stdin
+          ffprobe -v error -select_streams a -show_entries stream=codec_type -of csv=p=0 videos/Video_2_TDL_profissional.mp4 | test ! -s /dev/stdin
+
+      - name: Publicar vídeos no repositório
+        run: |
+          git config user.name "Editor Viral"
+          git config user.email "actions@users.noreply.github.com"
+          git add videos/*.mp4
+          git commit -m "Adicionar vídeos profissionais de hoje" || exit 0
+          git push
+
+      - name: Disponibilizar download
+        uses: actions/upload-artifact@v4
+        with:
+          name: videos-profissionais
+          path: videos/*.mp4
+          retention-days: 30

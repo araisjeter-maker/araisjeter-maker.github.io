@@ -42,7 +42,13 @@ def download_asset(key):
     ]
     for url in urls:
         try:
-            req=urllib.request.Request(url,headers={"User-Agent":"Mozilla/5.0"})
+            req=urllib.request.Request(url,headers={
+                "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/126 Safari/537.36",
+                "Referer":"https://mixkit.co/",
+                "Origin":"https://mixkit.co",
+                "Accept":"video/avif,video/webm,video/apng,video/*,*/*;q=0.8",
+                "Accept-Language":"pt-BR,pt;q=0.9,en;q=0.7"
+            })
             with urllib.request.urlopen(req,timeout=90) as r, open(dest,"wb") as f:
                 f.write(r.read())
             if dest.stat().st_size>100000:

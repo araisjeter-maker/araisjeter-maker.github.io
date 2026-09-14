@@ -32,6 +32,43 @@ SOURCES={
  "d8":"https://www.pexels.com/video/close-up-shot-of-humans-hands-9465404/"
 }
 CANDIDATES={
+ "t2":[
+  "https://www.pexels.com/video/tired-man-sitting-on-chair-7660187/",
+  "https://www.pexels.com/video/a-stressed-man-holding-his-head-7918580/",
+  "https://www.pexels.com/video/a-couple-holding-hands-8921925/"
+ ],
+ "t4":[
+  "https://www.pexels.com/video/woman-comforting-sad-twin-sister-6764083/",
+  "https://www.pexels.com/video/a-woman-nodding-while-talking-9034495/",
+  "https://www.pexels.com/video/a-couple-holding-hands-8921925/"
+ ],
+ "t1":[
+  "https://www.pexels.com/video/a-man-looking-anxious-6605949/",
+  "https://www.pexels.com/video/a-stressed-man-holding-his-head-7918580/"
+ ],
+ "d1":[
+  "https://www.pexels.com/video/close-up-view-of-a-man-looking-worried-7534959/",
+  "https://www.pexels.com/video/man-listening-to-someone-talk-7581218/"
+ ],
+ "d2":[
+  "https://www.pexels.com/video/close-up-view-of-a-person-typing-7660185/",
+  "https://www.pexels.com/video/close-up-shot-of-humans-hands-9465404/"
+ ],
+ "d3":[
+  "https://www.pexels.com/video/a-person-reading-a-book-4769627/",
+  "https://www.pexels.com/video/brain-27168144/",
+  "https://www.pexels.com/video/a-woman-talking-to-someone-10373944/"
+ ],
+ "d5":[
+  "https://www.pexels.com/video/brain-27168144/",
+  "https://www.pexels.com/video/a-woman-talking-to-someone-10373944/",
+  "https://www.pexels.com/video/man-listening-to-someone-talk-7581218/"
+ ],
+ "d7":[
+  "https://www.pexels.com/video/a-woman-talking-to-someone-10373944/",
+  "https://www.pexels.com/video/man-listening-to-someone-talk-7581218/",
+  "https://www.pexels.com/video/brain-27168144/"
+ ],
  "d4":[
   "https://www.pexels.com/video/woman-wearing-a-silver-watch-8995391/",
   "https://www.pexels.com/video/man-listening-to-someone-talk-7581218/"

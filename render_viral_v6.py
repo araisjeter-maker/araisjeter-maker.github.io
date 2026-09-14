@@ -13,11 +13,11 @@ INK=(31,25,35,255); WHITE=(255,255,255,255); LILAC=(170,118,191,255)
 PALE=(242,225,247,255); CREAM=(250,244,231,255); CORAL=(235,112,124,255); GOLD=(245,199,84,255)
 
 SRC={
- "q1":"https://www.pexels.com/video/pov-shopping-in-a-busy-supermarket-35226314/",
- "q2":"https://www.pexels.com/video/time-lapse-video-of-a-person-pushing-a-grocery-cart-4309719/",
- "q3":"https://www.pexels.com/video/food-market-supermarket-foodstuff-4251604/",
- "q4":"https://www.pexels.com/video/time-lapse-video-of-a-person-pushing-the-grocery-cart-4309734/",
- "q5":"https://www.pexels.com/video/a-person-putting-groceries-on-a-shopping-cart-9010435/",
+ "q1":"https://www.pexels.com/video/time-lapse-video-of-a-person-pushing-a-grocery-cart-4309719/",
+ "q2":"https://www.pexels.com/video/food-market-supermarket-foodstuff-4251604/",
+ "q3":"https://www.pexels.com/video/time-lapse-video-of-a-person-pushing-the-grocery-cart-4309734/",
+ "q4":"https://www.pexels.com/video/a-person-putting-groceries-on-a-shopping-cart-9010435/",
+ "q5":"https://www.pexels.com/video/a-couple-pushing-the-shopping-cart-in-the-grocery-4121748/",
  "n1":"https://www.pexels.com/video/man-making-a-sticky-note-at-work-desk-6177768/",
  "n2":"https://www.pexels.com/video/person-writing-on-a-paper-8872970/",
  "n3":"https://www.pexels.com/video/hand-flipping-through-empty-notebook-pages-6177794/",

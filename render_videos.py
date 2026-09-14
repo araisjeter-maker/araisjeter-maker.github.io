@@ -56,6 +56,15 @@ def download_asset(key):
         except Exception as e:
             print("Falhou",url,e)
             if dest.exists(): dest.unlink()
+    # O CDN pode bloquear hotlink. O yt-dlp extrai o link autorizado da própria página.
+    page=ASSETS[key][1]
+    try:
+        run(["yt-dlp","--no-playlist","--referer",page,
+             "-f","best[ext=mp4]/best","-o",str(dest),page])
+        if dest.exists() and dest.stat().st_size>100000:
+            print("Baixado pela página licenciada",key,dest.stat().st_size); return dest
+    except Exception as e:
+        print("Falhou extração da página",page,e)
     raise RuntimeError(f"Não foi possível baixar o clipe gratuito: {key}")
 
 def fnt(size,bold=True):

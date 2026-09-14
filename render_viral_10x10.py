@@ -19,7 +19,7 @@ SOURCES={
  "t_breathe":("pexels","https://www.pexels.com/video/an-elderly-man-s-hand-on-chest-and-belly-while-deep-breathing-8795151/"),
  "d_write":("mixkit","https://mixkit.co/free-stock-video/close-up-a-hand-writing-notes-on-a-notebook-with-99890/"),
  "d_type":("mixkit","https://mixkit.co/free-stock-video/person-typing-on-a-computer-in-detail-4907/"),
- "d_clock":("pexels","https://www.pexels.com/video/a-ticking-clock-7033786/"),
+ "d_clock":("mixkit","https://mixkit.co/free-stock-video/circular-clock-a-very-close-shot-illuminated-in-the-dark-28885/"),
  "d_sticky":("mixkit","https://mixkit.co/free-stock-video/student-hand-takes-a-stiky-note-to-paste-it-on-50112/"),
  "d_list":("mixkit","https://mixkit.co/free-stock-video/close-up-of-a-hand-writing-to-do-list-on-99909/")
 }

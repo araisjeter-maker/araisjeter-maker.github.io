@@ -32,6 +32,10 @@ SOURCES={
  "d8":"https://www.pexels.com/video/close-up-shot-of-humans-hands-9465404/"
 }
 CANDIDATES={
+ "d4":[
+  "https://www.pexels.com/video/woman-wearing-a-silver-watch-8995391/",
+  "https://www.pexels.com/video/man-listening-to-someone-talk-7581218/"
+ ],
  "t5":[
   "https://www.pexels.com/video/a-couple-holding-hands-8921925/",
   "https://www.pexels.com/video/woman-comforting-sad-twin-sister-6764083/",

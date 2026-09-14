@@ -46,7 +46,7 @@ def download(k):
    if out.stat().st_size>100000:return out
   except Exception:
    if out.exists():out.unlink()
- run(["yt-dlp","--no-playlist","--impersonate","chrome","--referer",page,"-f","bestvideo[height<=1920][ext=mp4]/best[height<=1920]","--merge-output-format","mp4","-o",str(out),page])
+ run(["yt-dlp","--no-playlist","--impersonate","chrome","--referer",page,"-f","best","--recode-video","mp4","-o",str(out),page])
  return out
 
 def font(n,b=True,serif=False): return ImageFont.truetype(S if serif else (B if b else R),n)

@@ -26,7 +26,7 @@ jobs:
       - name: Instalar ferramentas gratuitas
         run: |
           python -m pip install --upgrade pip
-          pip install Pillow
+          pip install Pillow yt-dlp
           sudo apt-get update
           sudo apt-get install -y ffmpeg
           ffmpeg -version

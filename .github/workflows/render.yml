@@ -1,17 +1,17 @@
-name: Renderizar vídeos experienciais finais
+name: Validar cenas virais V5 sem rostos
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - "render_experiential_v4.py"
+      - "render_viral_v5.py"
       - ".github/workflows/render.yml"
 
 permissions:
   contents: write
 
 jobs:
-  render:
+  preview:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -30,33 +30,20 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ffmpeg fonts-dejavu-core
 
-      - name: Renderizar os dois vídeos finais
-        run: python render_experiential_v4.py
+      - name: Gerar e revisar todas as cenas
+        run: python render_viral_v5.py --preview
 
-      - name: Validar formato duração e ausência de áudio
-        run: |
-          for f in videos/Video_1_Tourette_experiencia_v4.mp4 videos/Video_2_TDL_palavras_v4.mp4; do
-            test -s "$f"
-            test "$(ffprobe -v error -select_streams v:0 -show_entries stream=width -of csv=p=0 "$f")" = "1080"
-            test "$(ffprobe -v error -select_streams v:0 -show_entries stream=height -of csv=p=0 "$f")" = "1920"
-            test "$(ffprobe -v error -select_streams a -show_entries stream=index -of csv=p=0 "$f" | wc -l)" = "0"
-            duration="$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$f")"
-            awk -v d="$duration" 'BEGIN { exit !(d >= 45 && d <= 52) }'
-          done
-
-      - name: Publicar somente os vídeos aprovados
+      - name: Publicar folhas de revisão
         run: |
           git config user.name "Editor Viral"
           git config user.email "actions@users.noreply.github.com"
-          git add videos/Video_1_Tourette_experiencia_v4.mp4 videos/Video_2_TDL_palavras_v4.mp4
-          git commit -m "Publicar vídeos experienciais V4 aprovados" || exit 0
+          git add previews_v5/*.jpg
+          git commit -m "Adicionar revisão visual dos vídeos V5" || exit 0
           git push
 
-      - name: Disponibilizar cópia para download
+      - name: Guardar prévias
         uses: actions/upload-artifact@v4
         with:
-          name: videos-finais-v4
-          path: |
-            videos/Video_1_Tourette_experiencia_v4.mp4
-            videos/Video_2_TDL_palavras_v4.mp4
+          name: revisao-v5
+          path: previews_v5/*.jpg
           retention-days: 7

@@ -168,10 +168,10 @@ def overlay_words(path,b,i,total):
 def render_part(src,ov,out,dur,start,style,direction):
  sat=.68 if style=="story" else .82
  color=f"eq=contrast=1.16:saturation={sat}:brightness=-0.035,unsharp=5:5:0.4"
- slide="28*(1-t/0.20)" if direction>0 else "-28*(1-t/0.20)"
+ slide="if(lt(t,0.20),28*(1-t/0.20),0)" if direction>0 else "if(lt(t,0.20),-28*(1-t/0.20),0)"
  filt=(f"[0:v]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H}:"
        f"x='(iw-ow)*(0.5+0.04*sin(t*1.1))':y='(ih-oh)/2',fps={FPS},{color},format=yuv420p[bg];"
-       f"[1:v]format=rgba,fade=t=in:st=0:d=.14:alpha=1,fade=t=out:st={dur-.12:.2f}:d=.12:alpha=1[tx];"
+       f"[1:v]format=rgba,fade=t=in:st=0:d=0.14:alpha=1,fade=t=out:st={dur-0.12:.2f}:d=0.12:alpha=1[tx];"
        f"[bg][tx]overlay=x='{slide}':y=0:format=auto[v]")
  run(["ffmpeg","-y","-loglevel","error","-stream_loop","-1","-ss",str(start),"-i",str(src),
       "-loop","1","-i",str(ov),"-t",str(dur),"-filter_complex",filt,"-map","[v]","-an",

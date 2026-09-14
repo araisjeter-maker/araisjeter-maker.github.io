@@ -183,3 +183,5 @@ def render(name,duration,fn):
 if __name__=="__main__":
     render("Video_1_Tourette_profissional",12,draw_tourette)
     render("Video_2_TDL_profissional",26,draw_tdl)
+
+# execução automática

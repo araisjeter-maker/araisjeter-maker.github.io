@@ -44,22 +44,44 @@ def run(cmd):
     print(" ".join(map(str, cmd)), flush=True)
     subprocess.run(cmd, check=True)
 
+ALTERNATES = {
+    "d_wait": [
+        "https://www.pexels.com/video/woman-texting-on-a-phone-in-front-of-a-laptop-by-the-window-10375420/",
+        "https://www.pexels.com/video/clock-face-model-sitting-8322048/"
+    ],
+    "d_clock": [
+        "https://www.pexels.com/video/clock-face-model-sitting-8322048/",
+        "https://www.pexels.com/video/a-woman-dancing-with-a-wall-clock-covering-her-face-8322013/"
+    ],
+    "d_write": [
+        "https://www.pexels.com/video/close-up-of-person-writing-on-paper-7535005/",
+        "https://www.pexels.com/video/close-up-on-writing-with-ink-pen-11137423/"
+    ]
+}
+
 def download(key):
     target = ASSETS / f"{key}.mp4"
     if target.exists() and target.stat().st_size > 100000:
         return target
-    page = SOURCES[key]
-    cmd = [
-        "yt-dlp", "--no-playlist", "--impersonate", "chrome",
-        "--extractor-args", "generic:impersonate",
-        "--referer", page,
-        "-f", "bestvideo[height<=1920][ext=mp4]/best[height<=1920][ext=mp4]/best[height<=1920]/best",
-        "--merge-output-format", "mp4", "-o", str(target), page
-    ]
-    run(cmd)
-    if not target.exists() or target.stat().st_size <= 100000:
-        raise RuntimeError(f"Download gratuito falhou: {key}")
-    return target
+    pages = [SOURCES[key]] + ALTERNATES.get(key, [])
+    for attempt, page in enumerate(pages, 1):
+        try:
+            if target.exists():
+                target.unlink()
+            cmd = [
+                "yt-dlp", "--no-playlist", "--impersonate", "chrome",
+                "--extractor-args", "generic:impersonate",
+                "--referer", page, "--retries", "3", "--fragment-retries", "3",
+                "-f", "bestvideo[height<=1920][ext=mp4]/best[height<=1920][ext=mp4]/best[height<=1920]/best",
+                "--merge-output-format", "mp4", "-o", str(target), page
+            ]
+            run(cmd)
+            if target.exists() and target.stat().st_size > 100000:
+                print(f"Fonte gratuita validada: {key} tentativa {attempt}", flush=True)
+                return target
+        except subprocess.CalledProcessError:
+            print(f"Fonte {attempt} indisponível para {key}; tentando outra gratuita.", flush=True)
+    raise RuntimeError(f"Todas as fontes gratuitas falharam: {key}")
 
 def font(size, bold=True):
     return ImageFont.truetype(BOLD if bold else REG, size)

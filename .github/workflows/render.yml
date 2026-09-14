@@ -4,7 +4,8 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - "render_videos.py"\n      - "render_viral_10x10.py"
+      - "render_videos.py"
+      - "render_viral_10x10.py"
       - ".github/workflows/render.yml"
 
 permissions:

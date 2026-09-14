@@ -1,10 +1,10 @@
-name: Renderizar vídeos virais V5 finais
+name: Renderizar dois formatos virais V6
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - "render_viral_v5.py"
+      - "render_viral_v6.py"
       - ".github/workflows/render.yml"
 
 permissions:
@@ -13,50 +13,44 @@ permissions:
 jobs:
   render:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 50
     steps:
       - name: Baixar projeto
         uses: actions/checkout@v4
-
-      - name: Preparar ferramentas gratuitas
+      - name: Preparar editor gratuito
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
-      - name: Instalar editor gratuito
+      - name: Instalar ferramentas gratuitas
         run: |
           python -m pip install --upgrade pip
           pip install Pillow yt-dlp curl_cffi
           sudo apt-get update
           sudo apt-get install -y ffmpeg fonts-dejavu-core
-
-      - name: Renderizar os dois vídeos finais
-        run: python render_viral_v5.py
-
-      - name: Validar formato duração e ausência de áudio
+      - name: Renderizar formatos totalmente diferentes
+        run: python render_viral_v6.py
+      - name: Validar vídeos
         run: |
-          for f in videos/Video_1_Tourette_POV_viral_v5.mp4 videos/Video_2_TDL_10segundos_viral_v5.mp4; do
+          for f in videos/Video_1_Tourette_microhistoria_v6.mp4 videos/Video_2_TDL_teste_visual_v6.mp4; do
             test -s "$f"
             test "$(ffprobe -v error -select_streams v:0 -show_entries stream=width -of csv=p=0 "$f")" = "1080"
             test "$(ffprobe -v error -select_streams v:0 -show_entries stream=height -of csv=p=0 "$f")" = "1920"
             test "$(ffprobe -v error -select_streams a -show_entries stream=index -of csv=p=0 "$f" | wc -l)" = "0"
             duration="$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$f")"
-            awk -v d="$duration" 'BEGIN { exit !(d >= 54 && d <= 60) }'
+            awk -v d="$duration" 'BEGIN { exit !(d >= 56 && d <= 60) }'
           done
-
-      - name: Publicar vídeos aprovados
+      - name: Publicar vídeos
         run: |
           git config user.name "Editor Viral"
           git config user.email "actions@users.noreply.github.com"
-          git add videos/Video_1_Tourette_POV_viral_v5.mp4 videos/Video_2_TDL_10segundos_viral_v5.mp4
-          git commit -m "Publicar vídeos virais V5 sem rostos" || exit 0
+          git add videos/Video_1_Tourette_microhistoria_v6.mp4 videos/Video_2_TDL_teste_visual_v6.mp4
+          git commit -m "Publicar micro-história POV e teste visual V6" || exit 0
           git push
-
-      - name: Disponibilizar cópia para download
+      - name: Criar cópia para download
         uses: actions/upload-artifact@v4
         with:
-          name: videos-virais-v5
+          name: videos-virais-v6
           path: |
-            videos/Video_1_Tourette_POV_viral_v5.mp4
-            videos/Video_2_TDL_10segundos_viral_v5.mp4
+            videos/Video_1_Tourette_microhistoria_v6.mp4
+            videos/Video_2_TDL_teste_visual_v6.mp4
           retention-days: 7

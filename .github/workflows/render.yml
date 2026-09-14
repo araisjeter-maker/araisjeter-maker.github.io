@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - "render_videos.py"
+      - "render_videos.py"\n      - "render_viral_10x10.py"
       - ".github/workflows/render.yml"
 
 permissions:
@@ -32,14 +32,14 @@ jobs:
           ffmpeg -version
 
       - name: Renderizar MP4 silenciosos
-        run: python render_videos.py
+        run: python render_viral_10x10.py
 
       - name: Validar arquivos
         run: |
-          test -s videos/Video_1_Tourette_profissional.mp4
-          test -s videos/Video_2_TDL_profissional.mp4
-          ffprobe -v error -select_streams a -show_entries stream=codec_type -of csv=p=0 videos/Video_1_Tourette_profissional.mp4 | test ! -s /dev/stdin
-          ffprobe -v error -select_streams a -show_entries stream=codec_type -of csv=p=0 videos/Video_2_TDL_profissional.mp4 | test ! -s /dev/stdin
+          test -s videos/Video_1_Tourette_viral_10x10.mp4
+          test -s videos/Video_2_TDL_viral_10x10.mp4
+          ffprobe -v error -select_streams a -show_entries stream=codec_type -of csv=p=0 videos/Video_1_Tourette_viral_10x10.mp4 | test ! -s /dev/stdin
+          ffprobe -v error -select_streams a -show_entries stream=codec_type -of csv=p=0 videos/Video_2_TDL_viral_10x10.mp4 | test ! -s /dev/stdin
 
       - name: Publicar vídeos no repositório
         run: |

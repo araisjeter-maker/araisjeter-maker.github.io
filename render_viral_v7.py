@@ -13,17 +13,17 @@ CORAL=(255,108,120,255); CREAM=(255,247,231,255); MINT=(160,228,209,255); YELLOW
 
 # Todos os clipes são novos, gratuitos e diferentes dos usados nos vídeos anteriores.
 SRC={
- 'm_chew':'https://www.pexels.com/video/video-4196229/',
- 'm_key':'https://www.pexels.com/video/video-5647324/',
- 'm_clock':'https://www.pexels.com/video/video-7033786/',
- 'm_coffee':'https://www.pexels.com/video/video-17422066/',
- 'm_key2':'https://www.pexels.com/video/video-7581246/',
- 'd_calc':'https://www.pexels.com/video/video-7688135/',
- 'd_receipt':'https://www.pexels.com/video/video-5981287/',
- 'd_coins':'https://www.pexels.com/video/video-35996682/',
- 'd_measure':'https://www.pexels.com/video/video-8004761/',
- 'd_bus':'https://www.pexels.com/video/video-36138611/',
- 'd_clock':'https://www.pexels.com/video/video-9160919/'
+ 'm_chew':'https://www.pexels.com/download/video/4196229/',
+ 'm_key':'https://www.pexels.com/download/video/5647324/',
+ 'm_clock':'https://www.pexels.com/download/video/7033786/',
+ 'm_coffee':'https://www.pexels.com/download/video/17422066/',
+ 'm_key2':'https://www.pexels.com/download/video/7581246/',
+ 'd_calc':'https://www.pexels.com/download/video/7688135/',
+ 'd_receipt':'https://www.pexels.com/download/video/5981287/',
+ 'd_coins':'https://www.pexels.com/download/video/35996682/',
+ 'd_measure':'https://www.pexels.com/download/video/8004761/',
+ 'd_bus':'https://www.pexels.com/download/video/36138611/',
+ 'd_clock':'https://www.pexels.com/download/video/9160919/'
 }
 
 def run(c):
@@ -33,8 +33,8 @@ def download(k):
  out=A/f'{k}.mp4'
  if out.exists() and out.stat().st_size>100000:return out
  page=SRC[k]
- run(['yt-dlp','--no-playlist','--impersonate','chrome','--referer',page,
-      '-f','best[height<=1920]/best','--recode-video','mp4','-o',str(out),page])
+ run(['curl','-L','--fail','--retry','3','--connect-timeout','10','--max-time','240',
+      '-A','Mozilla/5.0','-o',str(out),page])
  if not out.exists() or out.stat().st_size<100000: raise RuntimeError('Falha na fonte gratuita: '+k)
  return out
 

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#6d4d7c"><title>Editor Viral — Fé Além do Diagnóstico</title>
+<style>
+:root{--l:#725083;--l2:#a786b8;--c:#f5ead9;--i:#28202d;--p:#fffdf9;--b:#ded3e3;--g:#247354;--r:#a63f4e}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Segoe UI,sans-serif;color:var(--i);background:linear-gradient(145deg,#f6f0f7,#eae1ed)}
+header{height:74px;padding:0 22px;background:#fff;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;gap:11px;align-items:center}.logo{width:39px;height:39px;border-radius:13px;background:linear-gradient(135deg,var(--l),var(--l2));box-shadow:0 8px 22px #72508355}
+h1{font-size:18px;margin:0}.small{font-size:11px;color:#716575}.pill{font-size:11px;font-weight:800;color:var(--g);background:#e4f3eb;border-radius:99px;padding:7px 10px}
+main{display:grid;grid-template-columns:minmax(310px,440px) 1fr;gap:17px;max-width:1420px;margin:auto;padding:17px}
+.panel{background:var(--p);border:1px solid var(--b);border-radius:18px;padding:16px;box-shadow:0 12px 38px #4c355014}
+h2{font-size:14px;margin:0 0 11px}.tools{display:flex;gap:8px;flex-wrap:wrap}
+button,.filebtn,input,textarea,select{font:inherit}button,.filebtn{border:0;border-radius:11px;padding:10px 12px;font-weight:750;cursor:pointer;transition:.15s}
+button:hover,.filebtn:hover{transform:translateY(-1px)}.primary,.filebtn{background:var(--l);color:#fff}.soft{background:#eee3f1;color:#51375f}.ghost{background:#f6f2f6;color:#504655;border:1px solid var(--b)}.danger{background:#fae7ea;color:var(--r)}
+.filebtn{display:inline-flex}input[type=file]{display:none}.hint,.note{font-size:11px;line-height:1.45;color:#766b79}.scenes{display:grid;gap:8px;max-height:230px;overflow:auto;margin:12px 0}
+.scene{display:grid;grid-template-columns:38px 1fr auto;align-items:center;gap:8px;background:white;border:1px solid var(--b);border-radius:12px;padding:7px}.scene.active{border-color:var(--l);box-shadow:0 0 0 2px #72508320}
+.num{height:56px;border-radius:8px;background:linear-gradient(155deg,#5a4067,#b798c4);display:grid;place-items:center;color:#fff;font-weight:850}.scene strong{display:block;font-size:11px}.scene small{font-size:10px;color:#756b78}
+.mini{padding:6px 8px;font-size:10px;border-radius:8px}.form{display:grid;grid-template-columns:1fr 105px;gap:9px}.field{display:grid;gap:4px}.full{grid-column:1/-1}
+label{font-size:10px;font-weight:850;color:#66586a;text-transform:uppercase;letter-spacing:.04em}input,textarea,select{border:1px solid var(--b);border-radius:10px;padding:9px;background:#fff;width:100%;color:var(--i)}textarea{min-height:66px;resize:vertical}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:13px}.rule{font-size:10px;padding:8px;background:#f5f0f6;border-radius:9px}.ok{color:var(--g);font-weight:900}
+.viewer{display:grid;place-items:center;min-height:675px;background:radial-gradient(circle at 50% 20%,#50395d,#1c151f);border-radius:16px;padding:15px}.phone{height:640px;max-height:74vh;aspect-ratio:9/16;background:#17101a;border-radius:18px;overflow:hidden;box-shadow:0 22px 70px #0009}canvas{width:100%;height:100%;display:block}
+.progress{height:5px;background:#dfd3e3;border-radius:99px;overflow:hidden;margin:11px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--l2),var(--l))}
+.status{min-height:18px;font-size:11px;color:#6c5f70}.exports{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:9px}.note{text-align:center;margin:10px auto 0;max-width:570px}
+@media(max-width:850px){main{grid-template-columns:1fr}.viewer{min-height:520px}.phone{height:520px}.rules{grid-template-columns:1fr}header{height:auto;padding:13px}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo"></div><div><h1>Editor Viral</h1><div class="small">Fé Além do Diagnóstico</div></div></div><div class="pill">GRÁTIS · LOCAL · SEM MARCA</div></header>
+<main>
+<section class="panel">
+<h2>1. Monte as cenas</h2>
+<div class="tools"><label class="filebtn">Adicionar vídeos/imagens<input id="files" type="file" accept="video/*,image/*" multiple></label><button id="demo" class="soft">Carregar modelo</button></div>
+<p class="hint">Seus arquivos não são enviados. Vídeos são sempre silenciados.</p>
+<div id="list" class="scenes"></div>
+<div class="form">
+<div class="field full"><label>Texto da cena</label><textarea id="caption" maxlength="105" placeholder="Uma frase curta e forte"></textarea></div>
+<div class="field"><label>Duração em segundos</label><input id="duration" type="number" min="1" max="12" step=".5" value="3"></div>
+<div class="field"><label>Entrada do texto</label><select id="animation"><option value="rise">Subir suave</option><option value="pop">Impacto</option><option value="fade">Aparecer</option></select></div>
+<div class="field"><label>Caixa</label><input id="box" type="color" value="#f5ead9"></div>
+<div class="field"><label>Texto</label><input id="color" type="color" value="#28202d"></div>
+<div class="field full"><label>Chamada final</label><input id="cta" value="Compartilhe com quem precisa entender."></div>
+</div>
+<div class="tools" style="margin-top:11px"><button id="up" class="ghost">↑ Subir</button><button id="down" class="ghost">↓ Descer</button><button id="remove" class="danger">Remover</button></div>
+<div class="rules"><div class="rule"><span class="ok">✓</span> 1080 × 1920</div><div class="rule"><span class="ok">✓</span> Sem áudio</div><div class="rule"><span class="ok">✓</span> Texto em área segura</div><div class="rule"><span class="ok">✓</span> Sem marca-d’água</div></div>
+</section>
+<section class="panel">
+<h2>2. Revise e exporte</h2>
+<div class="viewer"><div class="phone"><canvas id="cv" width="1080" height="1920"></canvas></div></div>
+<div class="progress"><div id="bar" class="bar"></div></div><div id="status" class="status">Adicione cenas ou carregue o modelo.</div>
+<div class="exports"><button id="preview" class="soft">▶ Ver prévia</button><button id="stop" class="ghost">Parar</button><button id="export" class="primary">Exportar MP4</button></div>
+<p class="note">A primeira exportação carrega um conversor livre. O vídeo é processado no seu navegador; nenhum crédito é usado.</p>
+</section>
+</main>
+<script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+<script>
+(function(){
+'use strict';
+var cv=document.getElementById('cv'),x=cv.getContext('2d'),sc=[],sel=-1,run=false,frame=0,t0=0,busy=false;
+var e={files:document.getElementById('files'),list:document.getElementById('list'),caption:document.getElementById('caption'),duration:document.getElementById('duration'),animation:document.getElementById('animation'),box:document.getElementById('box'),color:document.getElementById('color'),cta:document.getElementById('cta'),bar:document.getElementById('bar'),status:document.getElementById('status')};
+function total(){return sc.reduce(function(a,s){return a+s.duration},0)}
+function at(t){var a=0;for(var i=0;i<sc.length;i++){if(t<a+sc[i].duration||i===sc.length-1)return{s:sc[i],i:i,local:Math.max(0,t-a)};a+=sc[i].duration}return null}
+function safe(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function list(){e.list.innerHTML=sc.map(function(s,i){return'<div class="scene '+(i===sel?'active':'')+'" data-i="'+i+'"><div class="num">'+(i+1)+'</div><div><strong>'+safe(s.caption||s.name||'Cena sem texto')+'</strong><small>'+s.duration.toFixed(1)+' s · '+(s.type==='video'?'vídeo':s.type==='image'?'imagem':'fundo animado')+'</small></div><button class="mini ghost">Editar</button></div>'}).join('');Array.from(e.list.querySelectorAll('.scene')).forEach(function(n){n.onclick=function(){select(+n.dataset.i)}})}
+function select(i){sel=i;var s=sc[i];if(!s)return;e.caption.value=s.caption;e.duration.value=s.duration;e.animation.value=s.animation;e.box.value=s.box;e.color.value=s.color;list();draw(0)}
+function sync(){if(sel<0)return;var s=sc[sel];s.caption=e.caption.value;s.duration=Math.max(1,Math.min(12,+e.duration.value||3));s.animation=e.animation.value;s.box=e.box.value;s.color=e.color.value;list();draw(0)}
+['caption','duration','animation','box','color'].forEach(function(k){e[k].oninput=sync});e.cta.oninput=function(){draw(0)};
+function cover(sw,sh){var r=Math.max(1080/sw,1920/sh),w=sw*r,h=sh*r;return{x:(1080-w)/2,y:(1920-h)/2,w:w,h:h}}
+function rr(a,b,c,d,r){x.beginPath();x.roundRect(a,b,c,d,r)}
+function lines(text,w){var out=[],line='';String(text).trim().split(/\s+/).forEach(function(q){var test=line?line+' '+q:q;if(x.measureText(test).width>w&&line){out.push(line);line=q}else line=test});if(line)out.push(line);return out.slice(0,4)}
+function bg(t,i){var g=x.createLinearGradient(0,0,1080,1920);g.addColorStop(0,i%2?'#50375d':'#425368');g.addColorStop(1,'#171019');x.fillStyle=g;x.fillRect(0,0,1080,1920);for(var q=0;q<7;q++){x.globalAlpha=.08;x.fillStyle=q%2?'#f5ead9':'#b696c5';x.beginPath();x.arc(540+Math.sin(t*.45+q)*500,960+Math.cos(t*.31+q)*820,140+q*31,0,Math.PI*2);x.fill()}x.globalAlpha=1}
+function draw(t){var c=at(t);x.clearRect(0,0,1080,1920);if(!c){bg(t,0);x.fillStyle='#f5ead9';x.textAlign='center';x.font='800 54px system-ui';x.fillText('Adicione suas cenas',540,930);return}var s=c.s,p=Math.min(1,c.local/s.duration);bg(t,c.i);
+if(s.media&&s.ready){var m=s.media,sw=m.videoWidth||m.naturalWidth,sh=m.videoHeight||m.naturalHeight;if(sw&&sh){var z=s.type==='image'?1+.05*p:1.015,k=cover(sw,sh);x.save();x.translate(540,960);x.scale(z,z);x.translate(-540,-960);x.drawImage(m,k.x,k.y,k.w,k.h);x.restore()}}
+var sh=x.createLinearGradient(0,0,0,730);sh.addColorStop(0,'rgba(16,9,20,.48)');sh.addColorStop(1,'rgba(16,9,20,0)');x.fillStyle=sh;x.fillRect(0,0,1080,730);
+if(s.caption){var a=Math.min(1,c.local/.4),z=s.animation==='pop'?.86+.14*a:1,dy=s.animation==='rise'?(1-a)*55:0;x.save();x.globalAlpha=a;x.translate(540,0);x.scale(z,z);x.translate(-540,0);x.font='800 66px system-ui';x.textAlign='center';x.textBaseline='middle';var ls=lines(s.caption,810),lh=82,h=ls.length*lh+60,y=125+dy;x.fillStyle=s.box;rr(90,y,900,h,34);x.fill();x.fillStyle=s.color;ls.forEach(function(v,j){x.fillText(v,540,y+45+j*lh+lh/2,815)});x.restore()}
+if(c.i===sc.length-1&&p>.62&&e.cta.value){var q=Math.min(1,(p-.62)/.18);x.globalAlpha=q;x.fillStyle='rgba(35,25,40,.8)';rr(100,1630,880,125,28);x.fill();x.fillStyle='#fff';x.font='700 40px system-ui';x.textAlign='center';x.fillText(e.cta.value.slice(0,60),540,1695,800);x.globalAlpha=1}
+x.fillStyle='rgba(255,255,255,.78)';x.font='600 25px system-ui';x.textAlign='center';x.fillText('@fealemdodiagnostico',540,1842)}
+function add(file){var type=file.type.indexOf('video')===0?'video':'image',m=document.createElement(type),url=URL.createObjectURL(file),s={name:file.name,type:type,media:m,url:url,ready:false,duration:3,caption:'',animation:'rise',box:'#f5ead9',color:'#28202d'};m.src=url;m.muted=true;m.playsInline=true;m.onloadedmetadata=function(){s.ready=true;if(type==='video')s.duration=Math.min(6,Math.max(1,m.duration||3));list();draw(0)};m.onload=function(){s.ready=true;draw(0)};sc.push(s);select(sc.length-1)}
+e.files.onchange=function(z){Array.from(z.target.files).forEach(add);z.target.value=''};
+document.getElementById('demo').onclick=function(){sc=[
+{name:'Gancho',type:'graphic',ready:true,duration:2.1,caption:'ELA SABE A RESPOSTA.',animation:'pop',box:'#f5ead9',color:'#28202d'},
+{name:'Contraste',type:'graphic',ready:true,duration:2.7,caption:'A FRASE AINDA NÃO CHEGOU.',animation:'rise',box:'#eadcf0',color:'#35223f'},
+{name:'Acolhimento',type:'graphic',ready:true,duration:3.1,caption:'PRESSA NÃO ORGANIZA PALAVRAS.',animation:'fade',box:'#f5ead9',color:'#28202d'},
+{name:'Apoio',type:'graphic',ready:true,duration:3.2,caption:'TEMPO E APOIO VISUAL AJUDAM.',animation:'rise',box:'#dceaf0',color:'#20313a'}];e.cta.value='Salve para lembrar de oferecer tempo.';select(0);e.status.textContent='Modelo carregado. Adicione clipes para substituir os fundos.'};
+document.getElementById('remove').onclick=function(){if(sel<0)return;var s=sc[sel];if(s.url)URL.revokeObjectURL(s.url);sc.splice(sel,1);sel=Math.min(sel,sc.length-1);list();if(sel>=0)select(sel);else draw(0)};
+document.getElementById('up').onclick=function(){if(sel>0){var s=sc.splice(sel,1)[0];sc.splice(--sel,0,s);select(sel)}};
+document.getElementById('down').onclick=function(){if(sel>=0&&sel<sc.length-1){var s=sc.splice(sel,1)[0];sc.splice(++sel,0,s);select(sel)}};
+function stop(){run=false;cancelAnimationFrame(frame);sc.forEach(function(s){if(s.type==='video'&&s.media)s.media.pause()})}
+document.getElementById('stop').onclick=function(){stop();e.status.textContent='Prévia parada.'};
+async function prime(){for(var i=0;i<sc.length;i++){var s=sc[i];if(s.type==='video'){s.media.muted=true;s.media.currentTime=0;try{await s.media.play()}catch(q){}s.media.pause()}}}
+async function play(rec){if(!sc.length){e.status.textContent='Adicione pelo menos uma cena.';return}stop();await prime();run=true;t0=performance.now();var last=-1,d=total();function tick(now){if(!run)return;var t=(now-t0)/1000,c=at(t);if(c&&c.i!==last){if(last>=0&&sc[last].type==='video')sc[last].media.pause();if(c.s.type==='video'){c.s.media.currentTime=0;c.s.media.muted=true;c.s.media.play().catch(function(){})}last=c.i}draw(Math.min(t,d));e.bar.style.width=(Math.min(1,t/d)*100)+'%';if(t<d)frame=requestAnimationFrame(tick);else{run=false;sc.forEach(function(s){if(s.type==='video')s.media.pause()});if(rec&&rec.state!=='inactive')rec.stop();else e.status.textContent='Prévia concluída.'}}frame=requestAnimationFrame(tick)}
+document.getElementById('preview').onclick=function(){e.status.textContent='Reproduzindo prévia silenciosa…';play(null)};
+function dl(blob,name){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1200)}
+async function mp4(blob){if(!window.FFmpeg)throw Error('Conversor indisponível.');var ff=FFmpeg.createFFmpeg({log:false,corePath:'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js'});e.status.textContent='Carregando conversor MP4 gratuito…';await ff.load();ff.FS('writeFile','in.webm',await FFmpeg.fetchFile(blob));e.status.textContent='Convertendo para MP4 no navegador…';await ff.run('-i','in.webm','-an','-c:v','libx264','-preset','veryfast','-crf','20','-pix_fmt','yuv420p','-movflags','faststart','out.mp4');var a=ff.FS('readFile','out.mp4');return new Blob([a.buffer],{type:'video/mp4'})}
+document.getElementById('export').onclick=async function(){if(busy)return;if(!sc.length){e.status.textContent='Adicione cenas antes de exportar.';return}busy=true;this.disabled=true;var chunks=[],rec;try{var stream=cv.captureStream(30),mime=MediaRecorder.isTypeSupported('video/webm;codecs=vp9')?'video/webm;codecs=vp9':'video/webm';rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:10000000});rec.ondataavailable=function(z){if(z.data.size)chunks.push(z.data)};rec.onstop=async function(){try{var out=await mp4(new Blob(chunks,{type:'video/webm'}));dl(out,'reel-fe-alem-do-diagnostico.mp4');e.status.textContent='MP4 baixado: silencioso e sem marca-d’água.'}catch(q){dl(new Blob(chunks,{type:'video/webm'}),'reel-seguranca.webm');e.status.textContent='O navegador bloqueou o MP4; salvamos WebM como segurança.'}finally{busy=false;document.getElementById('export').disabled=false}};rec.start(250);e.status.textContent='Renderizando em tempo real…';play(rec)}catch(q){e.status.textContent='Falha ao exportar: '+q.message;busy=false;this.disabled=false}};
+draw(0);list();
+})();
+</script>
+</body></html>

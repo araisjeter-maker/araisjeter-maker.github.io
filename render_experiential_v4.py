@@ -18,16 +18,22 @@ SOURCES={
  "t4":"https://www.pexels.com/video/woman-comforting-sad-twin-sister-6764083/",
  "t5":"https://www.pexels.com/video/same-sex-couple-lying-on-the-floor-holding-hands-6973129/",
  "t6":"https://www.pexels.com/video/a-woman-touching-a-man-s-face-8088655/",
+ "t7":"https://www.pexels.com/video/a-shopping-cart-roaming-the-supermarket-5137848/",
+ "t8":"https://www.pexels.com/video/a-close-up-of-a-person-s-hand-10210122/",
+ "t9":"https://www.pexels.com/video/woman-resting-her-head-on-her-hand-6382082/",
+ "t10":"https://www.pexels.com/video/close-up-video-of-hands-moving-9465403/",
  "d1":"https://www.pexels.com/video/close-up-view-of-a-man-looking-worried-7534959/",
  "d2":"https://www.pexels.com/video/close-up-view-of-a-person-typing-7660185/",
  "d3":"https://www.pexels.com/video/a-person-reading-a-book-4769627/",
  "d4":"https://www.pexels.com/video/woman-wearing-a-silver-watch-8995391/",
  "d5":"https://www.pexels.com/video/brain-27168144/",
- "d6":"https://www.pexels.com/video/woman-with-a-thank-you-sign-5896042/"
+ "d6":"https://www.pexels.com/video/man-listening-to-someone-talk-7581218/",
+ "d7":"https://www.pexels.com/video/a-woman-talking-to-someone-10373944/",
+ "d8":"https://www.pexels.com/video/close-up-shot-of-humans-hands-9465404/"
 }
 GROUPS={
- "t":["t1","t2","t3","t4","t5","t6"],
- "d":["d1","d2","d3","d4","d5","d6"]
+ "t":["t1","t2","t3","t4","t5","t6","t7","t8","t9","t10"],
+ "d":["d1","d2","d3","d4","d5","d6","d7","d8"]
 }
 
 def run(cmd):
@@ -97,7 +103,12 @@ def overlay_story(path,b,i,total):
  elif mode=="inside":
   d.rectangle((0,0,W,H),fill=(37,20,44,155))
   d.text((44,165),"Por dentro",font=ft(22,False),fill=PALE)
-  lines(d,title,44,215,ft(58),WHITE,620,5)
+  if "|" in title:
+   yy=215
+   for segment in title.split("|"):
+    d.text((44,yy),segment,font=ft(54),fill=WHITE,stroke_width=2,stroke_fill=(20,12,23,150));yy+=70
+  else:
+   lines(d,title,44,215,ft(58),WHITE,620,5)
   if b.get("small"):lines(d,b["small"],44,930,ft(25,False),PALE,615,5)
  elif mode=="contrast":
   d.rounded_rectangle((35,145,685,425),30,fill=(26,16,30,210))
@@ -205,16 +216,16 @@ def build(name,style,beats,preview_only):
  run(["ffprobe","-v","error","-show_entries","stream=width,height:format=duration,size","-of","default=noprint_wrappers=1",str(out)])
 
 TOURETTE=[
- {"src":"t1","text":"Eu estava na fila.","dur":2.4,"start":0,"size":64},
- {"src":"t2","text":"O tique começou.","small":"Discreto. Mas visível.","dur":2.5,"start":1},
- {"src":"t3","text":"A pessoa atrás de mim olhou.","dur":2.7,"start":2},
- {"src":"t1","text":"“Dá para parar?”","mode":"quote","dur":2.8,"start":4},
- {"src":"t2","text":"Eu fingi que não ouvi.","dur":2.7,"start":5},
- {"src":"t3","text":"Tentei segurar.","small":"Só para ninguém olhar de novo.","dur":2.9,"start":6},
- {"src":"t1","text":"Pescoço.|Mãos.|Respiração.|Pressão.","mode":"inside","small":"Tudo ficou mais difícil ao mesmo tempo.","dur":3.4,"start":8},
+ {"src":"t7","text":"Eu estava na fila.","dur":2.4,"start":0,"size":64},
+ {"src":"t8","text":"O tique começou.","small":"Discreto. Mas visível.","dur":2.5,"start":1},
+ {"src":"t9","text":"A pessoa atrás de mim olhou.","dur":2.7,"start":2},
+ {"src":"t7","text":"“Dá para parar?”","mode":"quote","dur":2.8,"start":4},
+ {"src":"t10","text":"Eu fingi que não ouvi.","dur":2.7,"start":5},
+ {"src":"t8","text":"Tentei segurar.","small":"Só para ninguém olhar de novo.","dur":2.9,"start":6},
+ {"src":"t10","text":"Pescoço.|Mãos.|Respiração.|Pressão.","mode":"inside","small":"Tudo ficou mais difícil ao mesmo tempo.","dur":3.4,"start":8},
  {"src":"t2","text":"Silêncio.","mode":"contrast","tag":"Por fora","tag2":"Por dentro","small":"Meu corpo gritava.","dur":3.3,"start":9},
- {"src":"t3","text":"Quando finalmente saí...","dur":2.7,"start":10},
- {"src":"t1","text":"o tique voltou mais intenso.","mode":"inside","small":"Eu não tinha escolhido nenhum daqueles movimentos.","dur":3.5,"start":12},
+ {"src":"t7","text":"Quando finalmente saí...","dur":2.7,"start":10},
+ {"src":"t9","text":"o tique voltou mais intenso.","mode":"inside","small":"Eu não tinha escolhido nenhum daqueles movimentos.","dur":3.5,"start":12},
  {"src":"t5","text":"Não era desrespeito.","small":"Era um corpo tentando existir sem ser vigiado.","dur":3.5,"start":0},
  {"src":"t4","text":"Acolhimento não apaga o tique.","small":"Mas pode diminuir o peso de ser julgado.","dur":3.8,"start":1},
  {"src":"t6","text":"Se você já escondeu algo para conseguir caber...","dur":3.7,"start":1,"size":48},
@@ -236,7 +247,7 @@ TDL=[
  {"src":"d5","text":"palavras|ordem|pressão|silêncio","mode":"scatter","dur":3.5,"start":0},
  {"src":"d3","text":"Sob pressão, as palavras se desmontam.","small":"Isso não diminui a inteligência.","dur":3.7,"start":10,"size":48},
  {"src":"d2","text":"Uma pergunta|Uma pausa de verdade|Um apoio visual","mode":"steps","dur":4.7,"start":12},
- {"src":"d6","text":"Às vezes, apoiar a comunicação é parar de apressar.","dur":4.2,"start":0,"size":47},
+ {"src":"d7","text":"Às vezes, apoiar a comunicação é parar de apressar.","dur":4.2,"start":0,"size":47},
  {"src":"d3","text":"Tempo não é incapacidade.","mode":"final","small":"Envie para quem ainda confunde uma pausa com falta de resposta.","dur":4.8,"start":14}
 ]
 

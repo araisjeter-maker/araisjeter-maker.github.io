@@ -177,7 +177,7 @@ def render_scene(src,ov,out,dur,start,style,i):
  else:
   grade='eq=contrast=1.10:saturation=.92:brightness=.02,colorbalance=gs=.015:bs=.02'
   motion=f"scale=760:1352,crop=720:1280:x='20+8*sin(t*.55+{i})':y='36+7*cos(t*.5)'"
- filt=f"[0:v]{motion},fps={FPS},{grade},format=yuv420p[bg];[1:v]format=rgba,fade=t=in:st=0:d=.08:alpha=1,fade=t=out:st={max(.1,dur-.10)}:d=.10:alpha=1[ov];[bg][ov]overlay=0:0:format=auto[v]"
+ filt=f"[0:v]{motion},fps={FPS},{grade},format=yuv420p[bg];[1:v]format=rgba,fade=t=in:st=0:d=0.08:alpha=1,fade=t=out:st={max(0.1,dur-0.10)}:d=0.10:alpha=1[ov];[bg][ov]overlay=0:0:format=auto[v]"
  run(['ffmpeg','-y','-loglevel','error','-stream_loop','-1','-ss',str(start),'-i',str(src),'-loop','1','-i',str(ov),'-t',str(dur),'-filter_complex',filt,'-map','[v]','-an','-c:v','libx264','-preset','fast','-crf','18','-pix_fmt','yuv420p',str(out)])
 
 def build(name,style,beats,preview):

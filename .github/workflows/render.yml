@@ -1,24 +1,24 @@
-name: Renderizar vídeos profissionais
+name: Validar prévias dos vídeos
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - "render_native_v3.py"
+      - "render_experiential_v4.py"
       - ".github/workflows/render.yml"
 
 permissions:
   contents: write
 
 jobs:
-  render:
+  preview:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - name: Baixar projeto
         uses: actions/checkout@v4
 
-      - name: Preparar Python
+      - name: Preparar ferramentas gratuitas
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -29,38 +29,21 @@ jobs:
           pip install Pillow yt-dlp curl_cffi
           sudo apt-get update
           sudo apt-get install -y ffmpeg fonts-dejavu-core
-          ffmpeg -version
-          yt-dlp --version
 
-      - name: Renderizar versões inéditas
-        run: python render_native_v3.py
+      - name: Criar e validar todas as cenas
+        run: python render_experiential_v4.py --preview
 
-      - name: Validar resolução, duração e silêncio
-        run: |
-          test -s videos/Video_1_Tourette_documental_v3.mp4
-          test -s videos/Video_2_TDL_conversa_v3.mp4
-          test "$(ffprobe -v error -select_streams v:0 -show_entries stream=width -of csv=p=0 videos/Video_1_Tourette_documental_v3.mp4)" = "1080"
-          test "$(ffprobe -v error -select_streams v:0 -show_entries stream=height -of csv=p=0 videos/Video_1_Tourette_documental_v3.mp4)" = "1920"
-          test "$(ffprobe -v error -select_streams v:0 -show_entries stream=width -of csv=p=0 videos/Video_2_TDL_conversa_v3.mp4)" = "1080"
-          test "$(ffprobe -v error -select_streams v:0 -show_entries stream=height -of csv=p=0 videos/Video_2_TDL_conversa_v3.mp4)" = "1920"
-          test -z "$(ffprobe -v error -select_streams a -show_entries stream=codec_type -of csv=p=0 videos/Video_1_Tourette_documental_v3.mp4)"
-          test -z "$(ffprobe -v error -select_streams a -show_entries stream=codec_type -of csv=p=0 videos/Video_2_TDL_conversa_v3.mp4)"
-          ffprobe -v error -show_entries format=duration,size -of default=noprint_wrappers=1 videos/Video_1_Tourette_documental_v3.mp4
-          ffprobe -v error -show_entries format=duration,size -of default=noprint_wrappers=1 videos/Video_2_TDL_conversa_v3.mp4
-
-      - name: Publicar vídeos
+      - name: Publicar somente as prévias
         run: |
           git config user.name "Editor Viral"
           git config user.email "actions@users.noreply.github.com"
-          git add videos/Video_1_Tourette_documental_v3.mp4 videos/Video_2_TDL_conversa_v3.mp4
-          git commit -m "Publicar vídeos inéditos mais longos" || exit 0
+          git add previews_v4/*.jpg
+          git commit -m "Adicionar prévias para revisão visual" || exit 0
           git push
 
-      - name: Disponibilizar download
+      - name: Guardar cenas para render final
         uses: actions/upload-artifact@v4
         with:
-          name: videos-profissionais-v3
-          path: |
-            videos/Video_1_Tourette_documental_v3.mp4
-            videos/Video_2_TDL_conversa_v3.mp4
-          retention-days: 30
+          name: previas-v4
+          path: previews_v4/*.jpg
+          retention-days: 7

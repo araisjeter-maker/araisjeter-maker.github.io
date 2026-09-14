@@ -1,10 +1,10 @@
-name: Renderizar dois formatos virais V6
+name: Renderizar vídeos inéditos V7
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - "render_viral_v6.py"
+      - "render_viral_v7.py"
       - ".github/workflows/render.yml"
 
 permissions:
@@ -27,11 +27,11 @@ jobs:
           pip install Pillow yt-dlp curl_cffi
           sudo apt-get update
           sudo apt-get install -y ffmpeg fonts-dejavu-core
-      - name: Renderizar formatos totalmente diferentes
-        run: python render_viral_v6.py
+      - name: Renderizar vídeos novos
+        run: python render_viral_v7.py
       - name: Validar vídeos
         run: |
-          for f in videos/Video_1_Tourette_microhistoria_v6.mp4 videos/Video_2_TDL_teste_visual_v6.mp4; do
+          for f in videos/Video_1_Misofonia_experiencia_silenciosa_v7.mp4 videos/Video_2_Discalculia_um_dia_entre_numeros_v7.mp4; do
             test -s "$f"
             test "$(ffprobe -v error -select_streams v:0 -show_entries stream=width -of csv=p=0 "$f")" = "1080"
             test "$(ffprobe -v error -select_streams v:0 -show_entries stream=height -of csv=p=0 "$f")" = "1920"
@@ -43,16 +43,14 @@ jobs:
         run: |
           git config user.name "Editor Viral"
           git config user.email "actions@users.noreply.github.com"
-          git add videos/Video_1_Tourette_microhistoria_v6.mp4 videos/Video_2_TDL_teste_visual_v6.mp4
-          git commit -m "Publicar micro-história POV e teste visual V6" || exit 0
+          git add videos/Video_1_Misofonia_experiencia_silenciosa_v7.mp4 videos/Video_2_Discalculia_um_dia_entre_numeros_v7.mp4 previews_v7/*_contato.jpg
+          git commit -m "Publicar vídeos inéditos de misofonia e discalculia" || exit 0
           git push
       - name: Criar cópia para download
         uses: actions/upload-artifact@v4
         with:
-          name: videos-virais-v6
+          name: videos-ineditos-v7
           path: |
-            videos/Video_1_Tourette_microhistoria_v6.mp4
-            videos/Video_2_TDL_teste_visual_v6.mp4
+            videos/Video_1_Misofonia_experiencia_silenciosa_v7.mp4
+            videos/Video_2_Discalculia_um_dia_entre_numeros_v7.mp4
           retention-days: 7
-
-# execução corrigida

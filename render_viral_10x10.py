@@ -133,7 +133,7 @@ def part(src,out,ov,dur,start,bias,sat,tempo=1.0):
           f"eq=contrast=1.10:saturation={sat}:brightness=-0.03,"
           "unsharp=5:5:0.45,format=yuv420p[bg];"
           f"[1:v]format=rgba,fade=t=in:st=0:d=0.12:alpha=1,"
-          f"fade=t=out:st={max(.1,dur-.12):.2f}:d=.12:alpha=1[tx];"
+          f"fade=t=out:st={max(.1,dur-.12):.2f}:d=0.12:alpha=1[tx];"
           "[bg][tx]overlay=0:0:format=auto[v]")
     run(["ffmpeg","-y","-loglevel","error","-stream_loop","-1","-ss",str(start),"-i",str(src),
          "-loop","1","-i",str(ov),"-t",str(dur),"-filter_complex",filt,

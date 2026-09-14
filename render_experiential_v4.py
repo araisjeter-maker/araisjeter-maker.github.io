@@ -118,7 +118,7 @@ def download(key):
  if out.exists() and out.stat().st_size>100000:return out
  pages=CANDIDATES.get(key,[SOURCES[key]])
  for page in pages:
-  video_id=re.search(r"(\\d+)/?$",page).group(1)
+  video_id=re.search(r"(\d+)/?$",page).group(1)
   direct=[
    f"https://videos.pexels.com/video-files/{video_id}/{video_id}-hd_1920_1080_25fps.mp4",
    f"https://videos.pexels.com/video-files/{video_id}/{video_id}-hd_1080_1920_25fps.mp4",

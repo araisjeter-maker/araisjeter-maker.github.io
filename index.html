@@ -31,7 +31,7 @@ label{font-size:10px;font-weight:850;color:#66586a;text-transform:uppercase;lett
 <main>
 <section class="panel">
 <h2>1. Monte as cenas</h2>
-<div class="tools"><label class="filebtn">Adicionar vídeos/imagens<input id="files" type="file" accept="video/*,image/*" multiple></label><button id="demo" class="soft">Carregar modelo</button></div>
+<div class="tools"><label class="filebtn">Adicionar vídeos/imagens<input id="files" type="file" accept="video/*,image/*" multiple></label><button id="tdl" class="soft">Modelo TDL</button><button id="tourette" class="soft">Modelo Tourette</button></div>
 <p class="hint">Seus arquivos não são enviados. Vídeos são sempre silenciados.</p>
 <div id="list" class="scenes"></div>
 <div class="form">
@@ -78,11 +78,19 @@ if(c.i===sc.length-1&&p>.62&&e.cta.value){var q=Math.min(1,(p-.62)/.18);x.global
 x.fillStyle='rgba(255,255,255,.78)';x.font='600 25px system-ui';x.textAlign='center';x.fillText('@fealemdodiagnostico',540,1842)}
 function add(file){var type=file.type.indexOf('video')===0?'video':'image',m=document.createElement(type),url=URL.createObjectURL(file),s={name:file.name,type:type,media:m,url:url,ready:false,duration:3,caption:'',animation:'rise',box:'#f5ead9',color:'#28202d'};m.src=url;m.muted=true;m.playsInline=true;m.onloadedmetadata=function(){s.ready=true;if(type==='video')s.duration=Math.min(6,Math.max(1,m.duration||3));list();draw(0)};m.onload=function(){s.ready=true;draw(0)};sc.push(s);select(sc.length-1)}
 e.files.onchange=function(z){Array.from(z.target.files).forEach(add);z.target.value=''};
-document.getElementById('demo').onclick=function(){sc=[
+function loadTemplate(items,cta,msg){sc=items;e.cta.value=cta;select(0);e.status.textContent=msg}
+document.getElementById('tdl').onclick=function(){loadTemplate([
 {name:'Gancho',type:'graphic',ready:true,duration:2.1,caption:'ELA SABE A RESPOSTA.',animation:'pop',box:'#f5ead9',color:'#28202d'},
 {name:'Contraste',type:'graphic',ready:true,duration:2.7,caption:'A FRASE AINDA NÃO CHEGOU.',animation:'rise',box:'#eadcf0',color:'#35223f'},
 {name:'Acolhimento',type:'graphic',ready:true,duration:3.1,caption:'PRESSA NÃO ORGANIZA PALAVRAS.',animation:'fade',box:'#f5ead9',color:'#28202d'},
-{name:'Apoio',type:'graphic',ready:true,duration:3.2,caption:'TEMPO E APOIO VISUAL AJUDAM.',animation:'rise',box:'#dceaf0',color:'#20313a'}];e.cta.value='Salve para lembrar de oferecer tempo.';select(0);e.status.textContent='Modelo carregado. Adicione clipes para substituir os fundos.'};
+{name:'Apoio',type:'graphic',ready:true,duration:3.2,caption:'TEMPO E APOIO VISUAL AJUDAM.',animation:'rise',box:'#dceaf0',color:'#20313a'}],
+'Salve para lembrar de oferecer tempo.','Modelo TDL carregado. Adicione clipes variados para substituir os fundos.')};
+document.getElementById('tourette').onclick=function(){loadTemplate([
+{name:'Gancho',type:'graphic',ready:true,duration:1.8,caption:'MANDAR PARAR AUMENTA O ESFORÇO.',animation:'pop',box:'#f5ead9',color:'#28202d'},
+{name:'Tensão',type:'graphic',ready:true,duration:2.2,caption:'TIQUE NÃO É ESCOLHA.',animation:'rise',box:'#eadcf0',color:'#35223f'},
+{name:'Contexto',type:'graphic',ready:true,duration:2.4,caption:'CONTER PODE CAUSAR DESCONFORTO.',animation:'fade',box:'#f5ead9',color:'#28202d'},
+{name:'Acolhimento',type:'graphic',ready:true,duration:2.7,caption:'ACOLHER REDUZ A PRESSÃO.',animation:'rise',box:'#dceaf0',color:'#20313a'}],
+'Compartilhe com quem ainda chama tique de escolha.','Modelo Tourette carregado. Use cenas respeitosas, sem caricaturar movimentos.')};
 document.getElementById('remove').onclick=function(){if(sel<0)return;var s=sc[sel];if(s.url)URL.revokeObjectURL(s.url);sc.splice(sel,1);sel=Math.min(sel,sc.length-1);list();if(sel>=0)select(sel);else draw(0)};
 document.getElementById('up').onclick=function(){if(sel>0){var s=sc.splice(sel,1)[0];sc.splice(--sel,0,s);select(sel)}};
 document.getElementById('down').onclick=function(){if(sel>=0&&sel<sc.length-1){var s=sc.splice(sel,1)[0];sc.splice(++sel,0,s);select(sel)}};

@@ -167,7 +167,7 @@ def render_scene(src,ov,out,dur,start,style,i):
  else:
   grade="eq=contrast=1.06:saturation=.82:brightness=.045,colorbalance=rs=.02:gs=.01:bs=.03"
   zoom=f"scale=750:1334,crop=720:1280:x='15+8*sin(t*.7+{i})':y='27+6*cos(t*.8)'"
- filt=f"[0:v]{zoom},fps={FPS},{grade},format=yuv420p[bg];[1:v]format=rgba,fade=t=in:st=0:d=.10:alpha=1,fade=t=out:st={max(.1,dur-.12)}:d=.12:alpha=1[ov];[bg][ov]overlay=0:0:format=auto[v]"
+ filt=f"[0:v]{zoom},fps={FPS},{grade},format=yuv420p[bg];[1:v]format=rgba,fade=t=in:st=0:d=0.10:alpha=1,fade=t=out:st={max(.1,dur-.12)}:d=0.12:alpha=1[ov];[bg][ov]overlay=0:0:format=auto[v]"
  run(["ffmpeg","-y","-loglevel","error","-stream_loop","-1","-ss",str(start),"-i",str(src),"-loop","1","-i",str(ov),"-t",str(dur),"-filter_complex",filt,"-map","[v]","-an","-c:v","libx264","-preset","fast","-crf","18","-pix_fmt","yuv420p",str(out)])
 
 TOURETTE=[

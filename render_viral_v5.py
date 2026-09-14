@@ -34,7 +34,13 @@ SOURCES={
  "d11":"https://www.pexels.com/video/7034348/",
  "d12":"https://www.pexels.com/video/3580077/"
 }
-CANDIDATES={k:[v] for k,v in SOURCES.items()}
+TKEYS=[f"t{i}" for i in range(1,10)]
+DKEYS=[f"d{i}" for i in range(1,13)]
+CANDIDATES={}
+for keys in (TKEYS,DKEYS):
+ for idx,key in enumerate(keys):
+  order=keys[idx:]+keys[:idx]
+  CANDIDATES[key]=[SOURCES[x] for x in order]
 
 def run(cmd):
  print(" ".join(map(str,cmd)),flush=True); subprocess.run(cmd,check=True)

@@ -156,7 +156,7 @@ def render_scene(src,ov,out,dur,start,style,i):
  else:
   grade='eq=contrast=1.16:saturation=.82:brightness=-.005,colorbalance=bs=.025:gs=.01,unsharp=5:5:.45'
   zoom=f"scale=780:1387,crop=720:1280:x='30+15*sin(t*.65+{i})':y='53+11*cos(t*.55)'"
- filt=f"[0:v]{zoom},fps={FPS},{grade},format=yuv420p[bg];[1:v]format=rgba,fade=t=in:st=0:d=.06:alpha=1,fade=t=out:st={max(.1,dur-.08)}:d=.08:alpha=1[ov];[bg][ov]overlay=0:0:format=auto[v]"
+ filt=f"[0:v]{zoom},fps={FPS},{grade},format=yuv420p[bg];[1:v]format=rgba,fade=t=in:st=0:d=0.06:alpha=1,fade=t=out:st={max(0.1,dur-0.08)}:d=0.08:alpha=1[ov];[bg][ov]overlay=0:0:format=auto[v]"
  run(['ffmpeg','-y','-loglevel','error','-stream_loop','-1','-ss',str(start),'-i',str(src),'-loop','1','-i',str(ov),'-t',str(dur),'-filter_complex',filt,'-map','[v]','-an','-c:v','libx264','-preset','fast','-crf','18','-pix_fmt','yuv420p',str(out)])
 
 def build(name,style,beats,preview):
